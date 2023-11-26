@@ -14,7 +14,7 @@
   
       <ul class="post-footer">
         <li style="float: left">
-          <button class="likeBtn"><img src="/img/like-icon.png" alt="like" /></button>
+          <button class="likeBtn" @click="post.likes++"><img src="/img/like-icon.png" alt="like" /></button>
         </li>
         <li>
             {{ post.likes }} Likes

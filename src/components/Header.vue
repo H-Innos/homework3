@@ -18,10 +18,7 @@
   
 <script>
   export default {
-    name: 'Header',
-    components: {
-    Header,
-  },
+    name: 'Header'
   };
 </script>
   
@@ -32,9 +29,10 @@
     justify-content: space-between;
     align-items: center;
     margin: 5px;
-    background-color: #333;
+    background-color: #777;
     border-radius: 10px;
     }
+
     .navbar {
         list-style-type: none;
         overflow: hidden;
@@ -109,5 +107,19 @@
         #personalInfo {
             right: 32.25%
         }
+    }
+
+    nav {
+      padding: 30px;
+    }
+
+    nav a {
+      font-weight: bold;
+      color: #2c3e50;
+      padding: 10px;
+    }
+
+    nav a.router-link-exact-active {
+      color: #42b983;
     }
 </style>

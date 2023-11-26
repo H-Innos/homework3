@@ -2,9 +2,10 @@
   <div class="home">
     <div class="container">
       <aside id="left-bar"></aside>
-      <Content :posts="posts"></Content>
+      <Content ref="content" :posts="posts"></Content>
       <aside id="right-bar"></aside>
     </div>
+    <button class="reset-likes" @click="this.$refs.content.posts.forEach((x) => x.likes = 0)">Reset Likes</button>
   </div>
 </template>
 
@@ -47,8 +48,19 @@ export default {
   aside {
       margin: 0 10px;
       width: 25%;
-      background-color: #333;
+      background-color: #777;
       border-radius: 10px;
+  }
+
+  .reset-likes {
+    width: 10%;
+    padding: 5px;
+    margin: 10px auto 10px auto;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
   }
 
   Content {
