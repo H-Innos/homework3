@@ -56,11 +56,14 @@ export default {
   .signup {
     display: flex;
     justify-content: center;
+    height: 90%;
   }
   .signupbox {
     margin-top: 50px;
+    margin-bottom: auto;
     border-radius: 10px;
     background-color: gray;
+    width: 300px;
     padding: 10px;
     padding-left: 25px;
     padding-right: 25px;

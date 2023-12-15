@@ -24,16 +24,22 @@
     margin: 0;
     padding: 0;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  background-color: #a2e2f8;
   height: 100vh;
-  background-color: lightgray;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+}
+
+Header, 
+Footer {
+  height: 5vh;
+}
+
+router-view {
+  height: 90vh;
 }
 
 nav {

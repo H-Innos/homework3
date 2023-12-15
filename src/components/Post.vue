@@ -14,12 +14,11 @@
   
       <ul class="post-footer">
         <li style="float: left">
-          <button class="likeBtn" @click="post.likes++"><img src="/img/like-icon.png" alt="like" /></button>
+          <button class="likeBtn" @click="incrementLikes(post.id)"><img src="/img/like-icon.png" alt="like" /></button>
         </li>
         <li>
             {{ post.likes }} Likes
         </li>
-        <!-- Add other footer elements as needed -->
       </ul>
     </div>
   </template>
@@ -44,6 +43,9 @@
 
             return formattedDate;
             },
+            incrementLikes(postId) {
+                this.$store.dispatch('incrementLikes', postId);
+            }
         },
         };
 </script>

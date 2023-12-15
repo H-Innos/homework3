@@ -16,13 +16,13 @@
   
 <style scoped>
   footer {
-    height: 50px;
     padding: 10px;
     background-color: #000000;
     color: white;
     margin-top: auto;
     text-align: center;
-    bottom: 0;
     width: 100%;
+    bottom:0;
+    margin-top: auto;
     }
 </style>

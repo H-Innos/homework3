@@ -20,23 +20,21 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 5px;
-    background-color: #777;
-    border-radius: 10px;
+    background-color: #3b7097;
     }
 
     .navbar {
         list-style-type: none;
         overflow: hidden;
+        height: 100%;
         padding-left: 10px;
-        margin: 0;
     }
 
     li.navitem {
         float: left;
         position: relative;
         padding: 14px 16px;
-        font-size: 17px;
+        font-size: 20px;
         text-align: center;
         color:white;
     }
@@ -67,12 +65,13 @@
     }
 
     nav a {
+      text-decoration: none;
       font-weight: bold;
-      color: #2c3e50;
+      color: black;
       padding: 10px;
     }
 
     nav a.router-link-exact-active {
-      color: #42b983;
+      color: white;
     }
 </style>
