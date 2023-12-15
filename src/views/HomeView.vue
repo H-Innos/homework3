@@ -5,10 +5,10 @@
       <div class="content-and-buttons">
         <div class="content">
           <div v-for="post in posts" :key="post.id">
-          <Post :post="post"></Post>
+          <Post :post="post" @incrementLikes="incrementLikes"></Post>
           </div>
         </div>
-        <button class="reset-likes" @click="resetLikes">Reset Likes</button>
+        <button class="reset-likes" @click="resetLikes">Reset Likes</button> <!-- NOT NECESSARY ANYMORE -->
       </div>
       <aside id="right-bar"></aside>
     </div>
@@ -23,20 +23,48 @@ export default {
   components: {
     Post,
   },
+  data() {
+    return {
+      posts: [],
+    };
+  },
   computed: {
-    posts() {
-      return this.$store.state.posts;
-    }
   },
   methods: {
     resetLikes() {
-      this.$store.dispatch('resetLikes');
-    }
+      // NOT NECESSARY 
+    },
+    incrementLikes(postId) { 
+      fetch(`http://localhost:3000/api/posts/increment-likes/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((updatedPost) => {
+          const updatedPosts = this.posts.map((post) => {
+            if (post.id === updatedPost.id) {
+              return updatedPost;
+            }
+            return post;
+          });
+          this.posts = updatedPosts;
+        })
+        .catch((err) => console.log(err.message));
+      },
+    fetchPosts() {
+      fetch(`http://localhost:3000/api/posts/`)
+        .then((response) => response.json())
+        .then((data) => (this.posts = data))
+        .catch((err) => console.log(err.message));
+    },
   },
-  created() {
-    this.$store.dispatch('fetchPosts');
-  },
-};
+  mounted() {
+    this.fetchPosts();
+    console.log("mounted");
+  }
+}
 </script>
 
 <style>
@@ -84,6 +112,8 @@ export default {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    bottom: 0;
+    margin-top: auto;
   }
 
   .content {

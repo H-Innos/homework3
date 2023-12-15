@@ -1,10 +1,13 @@
 <template>
     <div class="post">
       <ul class="post-header">
-        <li style="float: left">
+        <li>
           <img :src="post.profile_picture || '/img/no-profile-picture-icon.png'" alt="img" />
         </li>
-        <li>{{ formatDate(post.date) }}</li>
+        <li> 
+            {{ post.author_name }}
+        </li>
+        <li style="float: right">{{ formatDate(post.date) }}</li>
       </ul>
       
       <div class="post-content">
@@ -44,7 +47,7 @@
             return formattedDate;
             },
             incrementLikes(postId) {
-                this.$store.dispatch('incrementLikes', postId);
+                this.$emit('incrementLikes', postId); 
             }
         },
         };
@@ -52,6 +55,7 @@
 
 <style scoped>
     .post {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
     padding: 10px;
     background-color: white;
     border-radius: 10px;
@@ -66,27 +70,33 @@
     }
 
     ul.post-header li {
+        height: 78px;
         padding: 14px 0px;
         text-decoration: none;
-        font-size: 17px;
-        float: right;
+        font-size: 20px;
+        float: left;
+        display: flex;
+        align-items: center;
     }   
 
     ul.post-header li>img {
         width: 50px;
         height: 50px;
+        margin-right: 5px;
     }
 
     .post div p {
         position: relative;
         width: 100%;
         overflow: visible;
-        padding: 0 10px;
+        padding: 0 20px;
+        font-size: 24px;
         text-align: justify;
     }
 
     .post div img {
         display: block;
+        padding: 0 20px;
         max-width: 70%;
         max-height: 400px;
     }
@@ -96,7 +106,7 @@
         float: right;
         padding: 14px 16px;
         text-decoration: none;
-        font-size: 17px;
+        font-size: 20px;
     }
 
     ul.post-footer li img {
