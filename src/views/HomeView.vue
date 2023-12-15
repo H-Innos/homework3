@@ -3,7 +3,7 @@
     <div class="container">
       <aside id="left-bar"></aside>
       <div class="content-and-buttons">
-        <button @click="logout"> Logout </button>
+        <button id="logout" @click="logout"> Logout </button>
         <div class="content">
           <div v-for="post in posts" :key="post.id">
           <Post :post="post" @incrementLikes="incrementLikes"></Post>
@@ -36,33 +36,55 @@ export default {
   computed: {
   },
   methods: {
-    incrementLikes(postId) { 
-      fetch(`http://localhost:3000/api/posts/increment-likes/${postId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => response.json())
-        .then((updatedPost) => {
-          const updatedPosts = this.posts.map((post) => {
-            if (post.id === updatedPost.id) {
-              return updatedPost;
-            }
-            return post;
-          });
-          this.posts = updatedPosts;
-        })
-        .catch((err) => console.log(err.message));
+    async incrementLikes(postId) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts/increment-likes/${postId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const updatedPost = await response.json();
+
+        this.posts = this.posts.map((post) => (post.id === updatedPost.id ? updatedPost : post));
+      } catch (err) {
+        console.log(err.message);
+      }
     },
     addPost() {
       this.$router.push('/api/addPost');
     },
-    fetchPosts() {
-      fetch(`http://localhost:3000/api/posts/`)
-        .then((response) => response.json())
-        .then((data) => (this.posts = data))
-        .catch((err) => console.log(err.message));
+    async deleteAll() {
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        })
+
+        if (response.ok) {
+          this.posts = [];
+          console.log("deleted all posts");
+        } else {
+          console.log(`Failed to delete posts. Status: ${response.status}`);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async fetchPosts() {
+      try {
+        const response = await fetch('http://localhost:3000/api/posts/');
+        const data = await response.json();
+
+        if (response.ok) {
+          this.posts = data;
+        } else {
+          console.log(`Failed to fetch posts. Status: ${response.status}`);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
     },
   },
   mounted() {
@@ -121,7 +143,11 @@ export default {
     margin-top: auto;
   }
 
+  #logout, .buttons {
+    flex: 0 0 auto;
+  }
   .content {
+    flex: 1;
       overflow-y: auto;
   }
 

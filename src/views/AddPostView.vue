@@ -45,7 +45,7 @@
                 },
                 body: JSON.stringify(data),
             })
-            .then((response) => {
+            .then(() => {
                 console.log('Adding post:', this.postBody);
                 this.$router.push("/");
             })
