@@ -12,7 +12,6 @@
   
   <script>
   export default {
-    // Add any additional logic if needed
   };
   </script>
   

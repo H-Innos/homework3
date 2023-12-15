@@ -24,10 +24,9 @@
         todayFormatted() {
             const today = new Date();
 
-            // Get individual components of the date
-            const year = today.getFullYear(); // Four-digit year
-            const month = today.getMonth() + 1; // Month (0-indexed, so add 1)
-            const day = today.getDate(); // Day of the month
+            const year = today.getFullYear(); 
+            const month = today.getMonth() + 1; 
+            const day = today.getDate(); 
 
             // Format the date as a string (e.g., "YYYY-MM-DD")
             const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
@@ -35,7 +34,7 @@
         },
         addPost() {
             var data = {
-                date: this.todayFormatted(),
+                date: this.todayFormatted(), // pass in today's date
                 body: this.post.body
             };
             fetch(`http://localhost:3000/api/posts`, {

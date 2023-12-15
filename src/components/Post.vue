@@ -47,7 +47,7 @@
             return formattedDate;
             },
             incrementLikes(postId) {
-                this.$emit('incrementLikes', postId); 
+                this.$emit('incrementLikes', postId); // send the increment likes event to home view
             }
         },
         };
