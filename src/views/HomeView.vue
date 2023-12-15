@@ -3,12 +3,17 @@
     <div class="container">
       <aside id="left-bar"></aside>
       <div class="content-and-buttons">
+        <button @click="logout"> Logout </button>
         <div class="content">
           <div v-for="post in posts" :key="post.id">
           <Post :post="post" @incrementLikes="incrementLikes"></Post>
           </div>
         </div>
-        <button class="reset-likes" @click="resetLikes">Reset Likes</button> <!-- NOT NECESSARY ANYMORE -->
+        <div class="buttons"> 
+          <button @click="addPost">Add Post</button> 
+          <button @click="deleteAll">Delete All</button>
+        </div>
+        
       </div>
       <aside id="right-bar"></aside>
     </div>
@@ -31,9 +36,6 @@ export default {
   computed: {
   },
   methods: {
-    resetLikes() {
-      // NOT NECESSARY 
-    },
     incrementLikes(postId) { 
       fetch(`http://localhost:3000/api/posts/increment-likes/${postId}`, {
         method: 'PUT',
@@ -52,7 +54,10 @@ export default {
           this.posts = updatedPosts;
         })
         .catch((err) => console.log(err.message));
-      },
+    },
+    addPost() {
+      this.$router.push('/api/addPost');
+    },
     fetchPosts() {
       fetch(`http://localhost:3000/api/posts/`)
         .then((response) => response.json())
@@ -103,11 +108,11 @@ export default {
     height: 100%;
   }
 
-  .reset-likes {
+  .content-and-buttons button {
     width: 10%;
     padding: 5px;
     margin: 10px auto 10px auto;
-    background-color: blue;
+    background-color: #4a8db7;
     color: white;
     border: none;
     border-radius: 10px;
@@ -118,6 +123,12 @@ export default {
 
   .content {
       overflow-y: auto;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
   }
 
 </style>

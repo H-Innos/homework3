@@ -2,7 +2,7 @@
     <header>
         <nav>
             <router-link to="/">Home</router-link>
-            <router-link to="/signup">Sign up</router-link>
+            <router-link to="/api/contactUs">Contact us</router-link>
         </nav>
         <img class="icon" src="/img/no-profile-picture-icon.png" alt="icon">
     </header>
@@ -31,7 +31,6 @@
     }
 
     li.navitem {
-        float: left;
         position: relative;
         padding: 14px 16px;
         font-size: 20px;
