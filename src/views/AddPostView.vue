@@ -40,7 +40,8 @@
             fetch(`http://localhost:3000/api/posts`, {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json' 
+                    'Content-Type': 'application/json',
+                    'x-auth-token': localStorage.getItem("user")
                 },
                 body: JSON.stringify(data),
             })

@@ -4,6 +4,7 @@
       <aside id="left-bar"></aside>
       <div class="content-and-buttons">
         <button id="logout" @click="logout"> Logout </button>
+        <p v-if="!loggedin()">Log in to see posts</p>
         <div class="content">
           <div v-for="post in posts" :key="post.id">
           <Post :post="post" @incrementLikes="incrementLikes"></Post>
@@ -36,12 +37,16 @@ export default {
   computed: {
   },
   methods: {
+    loggedin() {
+      return localStorage.getItem("user") != null;
+    },
     async incrementLikes(postId) {
       try {
         const response = await fetch(`http://localhost:3000/api/posts/increment-likes/${postId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'x-auth-token': localStorage.getItem("user")
           },
         });
 
@@ -58,8 +63,11 @@ export default {
     async deleteAll() {
       try {
         const response = await fetch(`http://localhost:3000/api/posts`, {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json'},
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': localStorage.getItem("user")
+          },
         })
 
         if (response.ok) {
@@ -74,7 +82,11 @@ export default {
     },
     async fetchPosts() {
       try {
-        const response = await fetch('http://localhost:3000/api/posts/');
+        const response = await fetch('http://localhost:3000/api/posts/', {
+          headers: {
+            'x-auth-token': localStorage.getItem("user")
+          },
+        });
         const data = await response.json();
 
         if (response.ok) {
@@ -86,6 +98,10 @@ export default {
         console.log(err.message);
       }
     },
+    logout() {
+      localStorage.removeItem("user");
+      this.$router.push("/api/login");
+    }
   },
   mounted() {
     this.fetchPosts();

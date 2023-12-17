@@ -1,15 +1,15 @@
 <template>
   <div class="signup">
     <div class="signupbox">
-      <form @submit.prevent = "validateForm"> 
+      <form onsubmit="return false"> 
         <label for="emailField">Email</label>
         <input type="email" id="emailField" name="email" placeholder="Email" required v-model="email"><br>
         <label for="passwordField">Password</label>
         <input type="password" id="passwordField" name="password" placeholder="Password" required v-model="password"><br>
         <div class="submitarea">
-          <p v-if="validatePassword" class="error"> {{validatePassword}}</p>
-          <button type="submit" id="signupbutton" @click="signUp">Signup</button>
-          <p v-if="error" class="error"> {{error}}</p>
+          <button type="submit" id="signupbutton" @click="login">Login</button>
+          <button id="signupbutton" @click="redirect">Signup</button>
+          <p v-if="error" class="error">{{error}}</p>
         </div>
       </form>
     </div>
@@ -18,51 +18,24 @@
 
 <script>
 export default {
-  name: "SignUpView", 
+  name: "LoginView", 
 
   data: function() {
     return {
       email: '',
       password: '',
-      validatePassword:'',
       error: '',
     }
   },
   methods: {
-  /* Validate password */
-    validateForm() {
-      //console.log('signup is submitted');
-      this.validatePassword = (this.password.length < 8 || this.password >= 15) ? 'password must be between 8-15 chars' : ''
-
-      let regex1 = /[A-Z]+/
-      let regex2 = /[a-z]{2,}/
-      let regex3 = /[0-9]+/
-      let regex4 = /_+/
-
-      this.validatePassword += regex1.test(this.password) ? '': this.validatePassword != '' ? ', password must contain at least 1 uppercase character (A-Z)':'password must contain at least 1 uppercase character (A-Z)'
-
-      this.validatePassword += regex2.test(this.password) ? '': this.validatePassword != '' ? ', password must contain at least 2 lowercase characters (a-z)':'password must contain at least 2 lowercase characters (a-z)'
-
-      this.validatePassword += regex3.test(this.password) ? '': this.validatePassword != '' ? ', password must contain at least 1 number (0-9)':'password must contain at least 1 number (0-9)'
-
-      this.validatePassword += regex1.test(this.password.charAt(0)) ? '': this.validatePassword != '' ? ', password must start with an uppercase character (A-Z)':'password must start with an uppercase character (A-Z)'
-
-      this.validatePassword += regex4.test(this.password) ? '': this.validatePassword != '' ? ', password must contain _':'password must contain _'
-
-      return null;
-    },
-    signUp() {
-      this.validateForm();
-      
-      if(this.validatePassword)
-        return;
-
+    login() {
       this.error = '';
+
       var data = {
           email: this.email,
           password: this.password
       };
-      fetch(`http://localhost:3000/api/signup`, {
+      fetch(`http://localhost:3000/api/login`, {
           method: 'POST',
           headers: { 
               'Content-Type': 'application/json' 
@@ -71,15 +44,19 @@ export default {
       })
       .then(response => response.json())
       .then((response) => {
+          localStorage.setItem("user", response.token);
           if(response.error) {
             this.error = response.error;
           }
           else {
-              console.log('Signing up user: ', this.email, this.password);
-              this.$router.push("/");
+            console.log('User login: ', this.email, this.password);
+            this.$router.push("/");
           }
       })
       .catch((err) => console.log(err.message));
+    },
+    redirect() {
+        this.$router.push("/api/signup");
     }
   }
 }
@@ -128,6 +105,7 @@ export default {
   #signupbutton {
     width: auto;
     padding: 8px;
+    margin-left: 20px;
     background-color: #203070;
     color: white;
     border: none;
